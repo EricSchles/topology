@@ -23,11 +23,11 @@ class Topology:
             
     
     
-    def intersection(self):
-        pass
+    def intersection(self,set1,set2):
+        return [filter(lambda x: x in set1, sublist) for sublist in set2]
 
-    def union(self):
-        pass
+    def union(self,set1,set2):
+        return [set1+set2]
 
     def remove_duplicates(self,data):
         for ind,val in enumerate(data):
