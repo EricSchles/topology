@@ -1,27 +1,23 @@
+from itertools import chain, combinations
+
 class Topology:
     def __init__(self,data=[]):
         self.data = data
-        self.topology = self._topologize(self.data)
+        self.topology = self._powerset()
 
     def _topologize(self,data):
         pass
     
-    def singleton(self,data):
-        return [[elem] for elem in data]
+    def singleton(self):
+        return [[elem] for elem in self.data]
 
     #expects singleton data
-    def subset(self,data):
-        subsets = []
-        subsets.append(data)
-        for ind,val in enumerate(data[1:]):
-            for index,value in data:
-                tmp = []
-                for i in xrange(ind):
-                    tmp += data[index+i]
-                subsets.append(value+tmp)
-        return subsets
-            
-    
+    def _powerset(self):
+        i = self.data
+        result = []
+        for z in chain.from_iterable(combinations(i,r) for r in range(len(i)+1)):
+            result.append(z)
+        return result
     
     def intersection(self,set1,set2):
         return [filter(lambda x: x in set1, sublist) for sublist in set2]
@@ -29,8 +25,8 @@ class Topology:
     def union(self,set1,set2):
         return [set1+set2]
 
-    def remove_duplicates(self,data):
-        for ind,val in enumerate(data):
+    def remove_duplicates(self):
+        for ind,val in enumerate(self.data):
             if val in data:
                 data[ind] = None
         final = []
